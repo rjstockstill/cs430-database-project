@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -125,6 +126,8 @@ public class UniversityDB extends JFrame {
     textArea.getCaret().setVisible(true);
     textArea.setCaretPosition(textArea.getDocument().getLength());
     
+    textArea.setText("Welcome to Test University's dashboard! All events will be logged to this panel.\nClick any button on the toolbar to perform the listed action.\nYou will be prompted to enter your university ID each time you request a service.");
+    
     
     //Mock database
     MockDB mockdb = new MockDB();
@@ -153,78 +156,14 @@ public class UniversityDB extends JFrame {
     PreparedStatement stmt = connect.prepareStatement("select * from Student");
     ResultSet rs = stmt.executeQuery();
     ResultSetMetaData rsmd = rs.getMetaData();
-    rs.next();
-    String foundType1 = rs.getString(1);
-    String foundType2 = rs.getString(2);
-    String foundType3 = rs.getString(3);
-    String foundType4 = rs.getString(4);
-    textArea.setText(foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
     
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
+    //rs.next();
+    //String foundType1 = rs.getString(1);
+    //String foundType2 = rs.getString(2);
+    //String foundType3 = rs.getString(3);
+    //String foundType4 = rs.getString(4);
+    //textArea.setText(foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
     
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    rs.next();
-    foundType1 = rs.getString(1);
-    foundType2 = rs.getString(2);
-    foundType3 = rs.getString(3);
-    foundType4 = rs.getString(4);
-    textArea.setText(textArea.getText() + "\n" + foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    //System.out.println(foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    //displayResults(rs, rsmd);
     stmt.close();
     connect.close();
     
@@ -232,6 +171,17 @@ public class UniversityDB extends JFrame {
     
     
     
+    QueryFactory queryFac = new QueryFactory();
+    ArrayList<String[]> res = new ArrayList<String[]>();
+    res = queryFac.searchDB("select * from Department");
+    
+    //System.out.println(res.get(0)[0] + " " + res.get(0)[1] + " " + res.get(0)[2]);
+    for(int i = 0; i < res.size(); i++) {
+      for(int j = 0; j < res.get(i).length; j++) {
+        System.out.print(res.get(i)[j]);
+      }
+      System.out.println();
+    }
     
     
 
@@ -295,6 +245,125 @@ public class UniversityDB extends JFrame {
         textArea.setText(textArea.getText() + "\n" + "Interests");
       }
     });
+    
+    
+    
+    searchUniBtn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        
+        JDialog searchUni = new JDialog(frame, "Search university records...", true);
+        searchUni.setSize(400, 200);
+        searchUni.setLayout(new GridLayout(0,1));
+        
+        JPanel nested1 = new JPanel();
+        JPanel nested2 = new JPanel();
+        JPanel nested3 = new JPanel();
+        
+        
+        JLabel searchAsLbl = new JLabel("Search as: ");
+        nested1.add(searchAsLbl);
+        JComboBox searchAsCombo = new JComboBox(userTypes);
+        searchAsCombo.setSelectedIndex(0);
+        nested1.add(searchAsCombo);
+        JLabel label2 = new JLabel("     ID #: ");
+        nested1.add(label2);
+        JTextField searchField = new JTextField(10);
+        nested1.add(searchField);
+        
+        JLabel searchForLbl = new JLabel("Search for: ");
+        nested2.add(searchForLbl);
+        JComboBox searchForCombo = new JComboBox(userTypes);
+        searchForCombo.setSelectedIndex(0);
+        nested2.add(searchForCombo);
+        JLabel label3 = new JLabel("     ID #: ");
+        nested2.add(label3);
+        JTextField searchField2 = new JTextField(10);
+        nested2.add(searchField2);
+        
+        JButton searchSubmit = new JButton("Search");
+        nested3.add(searchSubmit);
+        
+        searchUni.add(nested1);
+        searchUni.add(nested2);
+        searchUni.add(nested3);
+        
+        searchSubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            System.out.println("University records search submitted!");
+            
+            ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            try {
+              uniSearchRes = queryFac.searchDB("select * from Department");
+            } catch (Exception e1) {
+              // TODO Auto-generated catch block
+              e1.printStackTrace();
+            }
+            
+            for(int i = 0; i < uniSearchRes.size(); i++) {
+              textArea.setText(textArea.getText() + "\n");
+              for(int j = 0; j < uniSearchRes.get(i).length; j++) {
+                //System.out.print(uniSearchRes.get(i)[j]);
+                textArea.setText(textArea.getText() + uniSearchRes.get(i)[j]);
+              }
+              //System.out.println();
+            }
+            
+          }
+        });
+        
+        searchUni.pack();
+        searchUni.setLocationRelativeTo(frame);
+        searchUni.setVisible(true);
+        nested1.setVisible(true);
+        nested2.setVisible(true);
+        nested3.setVisible(true);
+        
+      }
+    });
+    
+    
+    
+    searchCoursesBtn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        
+        JDialog searchCourses = new JDialog(frame, "Search course list...", true);
+        searchCourses.setSize(400, 200);
+        searchCourses.setLayout(new GridLayout(0,1));
+        
+        JPanel nested1 = new JPanel();
+        JPanel nested2 = new JPanel();
+        JPanel nested3 = new JPanel();
+        
+        
+        JLabel searchAsLbl = new JLabel("Search as: ");
+        nested1.add(searchAsLbl);
+        JComboBox searchAsCombo = new JComboBox(userTypes);
+        searchAsCombo.setSelectedIndex(0);
+        nested1.add(searchAsCombo);
+        
+        JLabel label2 = new JLabel("ID #: ");
+        nested2.add(label2);
+        JTextField searchField = new JTextField(20);
+        nested2.add(searchField);
+        
+        JButton searchSubmit = new JButton("Search");
+        nested3.add(searchSubmit);
+        
+        searchCourses.add(nested1);
+        searchCourses.add(nested2);
+        searchCourses.add(nested3);
+        
+        searchCourses.pack();
+        searchCourses.setLocationRelativeTo(frame);
+        searchCourses.setVisible(true);
+        nested1.setVisible(true);
+        nested2.setVisible(true);
+        nested3.setVisible(true);
+      }
+    });
 
 
 
@@ -309,39 +378,6 @@ public class UniversityDB extends JFrame {
     dialog.setLocationRelativeTo(frame);
     dialog.setVisible(true);
 
-  }
-  
-  
-  
-  
-  public static void displayResults(ResultSet rs, ResultSetMetaData rsmd) throws SQLException{
-    String result=new String();
-        int numberofcolumn =rsmd.getColumnCount();
-        System.out.println("number of columns= " + numberofcolumn );
-        String columnnames=new String("");
-        
-        for(int i=1;i<=numberofcolumn;i++) /*for loop needs to from  1 not 0*/
-        {
-           String name=rsmd.getColumnName(i);
-           columnnames=columnnames+"\t"+name;
-        }
-        
-        result+=columnnames;
-        result+="\n";
-
-        /*Read the result*/
-        /*rs.next() will return true when the result set still  * contains next row*/
-         while (rs.next())
-        {
-         /*Read each field of the row, and the for loop also begin  * with 1*/
-          for(int i=1;i<=numberofcolumn;i++)
-           {
-              String s=rs.getString(i);
-              result+="\t"+s;
-           }
-          result+="\n";
-        }
-        System.err.println("\n"+result);
   }
   
   
