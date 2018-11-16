@@ -23,6 +23,7 @@ public class UniversityDB extends JFrame {
     
     
     String[] userTypes = {"Staff", "Faculty", "Student"};
+    String[] departmentTypes = {"Computer Science", "Computer Engineering", "Electrical Engineering", "Physics", "Mathematics", "Chemistry", "Human Physiology", "Biology", "Zoology", "Geology"};
     
     
     
@@ -37,38 +38,6 @@ public class UniversityDB extends JFrame {
     //contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
     
     //End main frame
-    
-    
-    
-    
-    
-    
-    
-    
-    //Login modal
-    
-    JDialog dialog = new JDialog(frame, "Login", true);
-    dialog.setSize(400, 200);
-    
-    Container dialogPane = dialog.getContentPane();
-    dialogPane.setLayout(new FlowLayout());
-    
-    JLabel label1 = new JLabel("User type: ");
-    dialog.add(label1);
-    
-    JComboBox userList = new JComboBox(userTypes);
-    userList.setSelectedIndex(0);
-    dialog.add(userList);
-    
-    JLabel label2 = new JLabel("ID #: ");
-    dialog.add(label2);
-    
-    JPasswordField passLogin = new JPasswordField(20);
-    dialog.add(passLogin);
-    JButton submitLogin = new JButton("Login");
-    dialog.add(submitLogin);
-    
-    //End login modal
     
     
     
@@ -106,10 +75,10 @@ public class UniversityDB extends JFrame {
     
     JLabel mlabel3 = new JLabel("     Modify records:  ");
     menu.add(mlabel3);
-    JButton m2 = new JButton("Delete");
-    menu.add(m2);
-    JButton m3 = new JButton("Update");
-    menu.add(m3);
+    JButton deleteRecordBtn = new JButton("Delete");
+    menu.add(deleteRecordBtn);
+    JButton updateRecordBtn = new JButton("Update");
+    menu.add(updateRecordBtn);
     JLabel mlabel2 = new JLabel("     Search:  ");
     menu.add(mlabel2);
     JButton searchUniBtn = new JButton("Search university");
@@ -127,6 +96,7 @@ public class UniversityDB extends JFrame {
     textArea.setCaretPosition(textArea.getDocument().getLength());
     
     textArea.setText("Welcome to Test University's dashboard! All events will be logged to this panel.\nClick any button on the toolbar to perform the listed action.\nYou will be prompted to enter your university ID each time you request a service.");
+    textArea.setText(textArea.getText() + "\n");
     
     
     //Mock database
@@ -172,9 +142,10 @@ public class UniversityDB extends JFrame {
     
     
     QueryFactory queryFac = new QueryFactory();
-    ArrayList<String[]> res = new ArrayList<String[]>();
-    res = queryFac.searchDB("select * from Department");
+    //ArrayList<String[]> res = new ArrayList<String[]>();
+    //res = queryFac.searchDB("select * from Department");
     
+    /*
     //System.out.println(res.get(0)[0] + " " + res.get(0)[1] + " " + res.get(0)[2]);
     for(int i = 0; i < res.size(); i++) {
       for(int j = 0; j < res.get(i).length; j++) {
@@ -182,67 +153,616 @@ public class UniversityDB extends JFrame {
       }
       System.out.println();
     }
+    */
     
     
-
-
-
     //Events
-    submitLogin.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        boolean found = false;
-        String pass = String.valueOf(passLogin.getPassword());
-        
-        for(int i = 0; i < mockdb.accounts.size(); i++) {
-          if(mockdb.accounts.get(i)[0].equals(userList.getSelectedItem()) && mockdb.accounts.get(i)[1].equals(pass)) {
-            found = true;
-            break;
-          }
-        }
-        
-        if(found) {
-          System.out.println("Logged in successfully!");
-          dialog.setVisible(false);
-        }
-        else {
-          System.out.println("Incorrect username or password.");
-        }
-      }
-    });
     
     createStaffBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        textArea.setText(textArea.getText() + "\n" + "About");
+        JDialog addStaff = new JDialog(frame, "Add staff record...", true);
+        addStaff.setSize(400, 200);
+        addStaff.setLayout(new GridLayout(0,1));
+        
+        JPanel nested1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel nested3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested5 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested6 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        JLabel confStaffIdLbl = new JLabel("Confirm staff ID: ");
+        nested1.add(confStaffIdLbl);
+        JTextField confStaffIdField = new JTextField(10);
+        nested1.add(confStaffIdField);
+        
+        JLabel newEntryLbl = new JLabel("~ - ~ - ~ NEW STAFF ENTRY ~ - ~ - ~");
+        nested2.add(newEntryLbl);
+        
+        JLabel newIdLbl = new JLabel("ID: ");
+        nested3.add(newIdLbl);
+        JTextField newIdField = new JTextField(10);
+        nested3.add(newIdField);
+        
+        JLabel newNameLbl = new JLabel("Name: ");
+        nested4.add(newNameLbl);
+        JTextField newNameField = new JTextField(10);
+        nested4.add(newNameField);
+        
+        JLabel newAgeLbl = new JLabel("Age: ");
+        nested5.add(newAgeLbl);
+        JTextField newAgeField = new JTextField(10);
+        nested5.add(newAgeField);
+        
+        JLabel newDeptLbl = new JLabel("Dept #: ");
+        nested6.add(newDeptLbl);
+        JTextField newDeptField = new JTextField(10);
+        nested6.add(newDeptField);
+        
+        JButton addStaffSubmit = new JButton("Add record");
+        nested7.add(addStaffSubmit);
+        
+        
+        //confStaffIdField.setText("00001");
+        //newIdField.setText("00015");
+        //newNameField.setText("First");
+        //newAgeField.setText("30");
+        //newDeptField.setText("5");
+        
+        addStaff.add(nested1);
+        addStaff.add(nested2);
+        addStaff.add(nested3);
+        addStaff.add(nested4);
+        addStaff.add(nested5);
+        addStaff.add(nested6);
+        addStaff.add(nested7);
+        
+        addStaffSubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            
+            ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            uniSearchRes = null;
+            String identifiers = null;
+            int result = 0;
+            
+            //Confirms ID of user
+            try {
+              uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
+            } catch (Exception e1) {
+              // TODO Auto-generated catch block
+              //e1.printStackTrace();
+            }
+            
+            //Checks if query result is empty or null
+            if(uniSearchRes != null && !uniSearchRes.isEmpty() && !newIdField.getText().isEmpty() && !newNameField.getText().isEmpty() && !newAgeField.getText().isEmpty() && !newDeptField.getText().isEmpty()) {
+              String idFieldStr = newIdField.getText();
+              String nameFieldStr = newNameField.getText();
+              String ageFieldStr = newAgeField.getText();
+              String deptFieldStr = newDeptField.getText();
+              
+              //Proceed with insertion
+              try {
+                String addQuery = "insert into Staff values ('" + idFieldStr + "','" + nameFieldStr + "'," + ageFieldStr + "," + deptFieldStr + ")";
+                result = queryFac.addRecordToDB(addQuery);
+              } catch (Exception e2) {
+                // TODO Auto-generated catch block
+                //e2.printStackTrace();
+              }
+              
+              System.out.println(result);
+              if(result != 0) {
+                //Echoes results of above addition to the program log
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "New staff added!");
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "ID: " + idFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Name: " + nameFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Age: " + ageFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Department: " + departmentTypes[Integer.parseInt(deptFieldStr) - 1]);
+                textArea.setText(textArea.getText() + "\n");
+              }
+              else {
+                //Throw error notif at user
+                JDialog notif = new JDialog(frame, "Attention!", true);
+                notif.setSize(300, 150);
+                notif.setLayout(new GridLayout(0,1));
+                JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                JLabel notifLbl1 = new JLabel("     Illegal insertion field!     ");
+                notifNested1.add(notifLbl1);
+                
+                notif.add(notifNested1);
+                //notif.pack();
+                notif.setLocationRelativeTo(addStaff);
+                notif.setVisible(true);
+              }
+              
+            }
+            else {
+              //Throw error notif at user
+              JDialog notif = new JDialog(frame, "Attention!", true);
+              notif.setSize(300, 150);
+              notif.setLayout(new GridLayout(0,1));
+              JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+              JLabel notifLbl1 = new JLabel("     You are not authorized to do that!     ");
+              notifNested1.add(notifLbl1);
+              
+              notif.add(notifNested1);
+              //notif.pack();
+              notif.setLocationRelativeTo(addStaff);
+              notif.setVisible(true);
+            }
+            
+          }
+        });
+        
+        addStaff.pack();
+        addStaff.setLocationRelativeTo(frame);
+        addStaff.setVisible(true);
+        nested1.setVisible(true);
+        nested2.setVisible(true);
+        nested3.setVisible(true);
       }
     });
+    
+    
     
     createFacultyBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        textArea.setText(textArea.getText() + "\n" + "About");
+        JDialog addFaculty = new JDialog(frame, "Add faculty record...", true);
+        addFaculty.setSize(400, 200);
+        addFaculty.setLayout(new GridLayout(0,1));
+        
+        JPanel nested1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel nested3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested5 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested6 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested7 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested8 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        JLabel confStaffIdLbl = new JLabel("Confirm staff ID: ");
+        nested1.add(confStaffIdLbl);
+        JTextField confStaffIdField = new JTextField(10);
+        nested1.add(confStaffIdField);
+        
+        JLabel newEntryLbl = new JLabel("~ - ~ - ~ NEW FACULTY ENTRY ~ - ~ - ~");
+        nested2.add(newEntryLbl);
+        
+        JLabel newIdLbl = new JLabel("ID: ");
+        nested3.add(newIdLbl);
+        JTextField newIdField = new JTextField(10);
+        nested3.add(newIdField);
+        
+        JLabel newNameLbl = new JLabel("Name: ");
+        nested4.add(newNameLbl);
+        JTextField newNameField = new JTextField(10);
+        nested4.add(newNameField);
+        
+        JLabel newAgeLbl = new JLabel("Age: ");
+        nested5.add(newAgeLbl);
+        JTextField newAgeField = new JTextField(10);
+        nested5.add(newAgeField);
+        
+        JLabel newDeptLbl = new JLabel("Dept #: ");
+        nested6.add(newDeptLbl);
+        JTextField newDeptField = new JTextField(10);
+        nested6.add(newDeptField);
+        
+        JLabel newSpecialtyLbl = new JLabel("Research area: ");
+        nested7.add(newSpecialtyLbl);
+        JTextField newSpecialtyField = new JTextField(10);
+        nested7.add(newSpecialtyField);
+        
+        JButton addFacultySubmit = new JButton("Add record");
+        nested8.add(addFacultySubmit);
+        
+        
+        //confStaffIdField.setText("00001");
+        //newIdField.setText("00015");
+        //newNameField.setText("First");
+        //newAgeField.setText("30");
+        //newDeptField.setText("5");
+        //newSpecialtyField.setText("Cloud computing");
+        
+        addFaculty.add(nested1);
+        addFaculty.add(nested2);
+        addFaculty.add(nested3);
+        addFaculty.add(nested4);
+        addFaculty.add(nested5);
+        addFaculty.add(nested6);
+        addFaculty.add(nested7);
+        addFaculty.add(nested8);
+        
+        addFacultySubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            
+            ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            uniSearchRes = null;
+            String identifiers = null;
+            int result = 0;
+            
+            //Confirms ID of user
+            try {
+              uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
+            } catch (Exception e1) {
+              // TODO Auto-generated catch block
+              //e1.printStackTrace();
+            }
+            
+            //Checks if query result is empty or null
+            if(uniSearchRes != null && !uniSearchRes.isEmpty() && !newIdField.getText().isEmpty() && !newNameField.getText().isEmpty() && !newAgeField.getText().isEmpty() && !newDeptField.getText().isEmpty()) {
+              String idFieldStr = newIdField.getText();
+              String nameFieldStr = newNameField.getText();
+              String ageFieldStr = newAgeField.getText();
+              String deptFieldStr = newDeptField.getText();
+              String specialtyFieldStr = newSpecialtyField.getText();
+              
+              //Proceed with insertion
+              try {
+                String addQuery = "insert into Faculty values ('" + idFieldStr + "','" + nameFieldStr + "'," + ageFieldStr + "," + deptFieldStr + ",'" + specialtyFieldStr + "')";
+                result = queryFac.addRecordToDB(addQuery);
+              } catch (Exception e2) {
+                // TODO Auto-generated catch block
+                //e2.printStackTrace();
+              }
+              
+              System.out.println(result);
+              if(result != 0) {
+                //Echoes results of above addition to the program log
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "New faculty added!");
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "ID: " + idFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Name: " + nameFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Age: " + ageFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Department: " + departmentTypes[Integer.parseInt(deptFieldStr) - 1]);
+                textArea.setText(textArea.getText() + "\n" + "Research area: " + specialtyFieldStr);
+                textArea.setText(textArea.getText() + "\n");
+              }
+              else {
+                //Throw error notif at user
+                JDialog notif = new JDialog(frame, "Attention!", true);
+                notif.setSize(300, 150);
+                notif.setLayout(new GridLayout(0,1));
+                JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                JLabel notifLbl1 = new JLabel("     Illegal insertion field!     ");
+                notifNested1.add(notifLbl1);
+                
+                notif.add(notifNested1);
+                //notif.pack();
+                notif.setLocationRelativeTo(addFaculty);
+                notif.setVisible(true);
+              }
+              
+            }
+            else {
+              //Throw error notif at user
+              JDialog notif = new JDialog(frame, "Attention!", true);
+              notif.setSize(300, 150);
+              notif.setLayout(new GridLayout(0,1));
+              JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+              JLabel notifLbl1 = new JLabel("     You are not authorized to do that!     ");
+              notifNested1.add(notifLbl1);
+              
+              notif.add(notifNested1);
+              //notif.pack();
+              notif.setLocationRelativeTo(addFaculty);
+              notif.setVisible(true);
+            }
+            
+          }
+        });
+        
+        addFaculty.pack();
+        addFaculty.setLocationRelativeTo(frame);
+        addFaculty.setVisible(true);
+        nested1.setVisible(true);
+        nested2.setVisible(true);
+        nested3.setVisible(true);
       }
     });
+    
+    
     
     createStudentBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        textArea.setText(textArea.getText() + "\n" + "About");
+        JDialog addStudent = new JDialog(frame, "Add student record...", true);
+        addStudent.setSize(400, 200);
+        addStudent.setLayout(new GridLayout(0,1));
+        
+        JPanel nested1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel nested3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested5 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested6 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        JLabel confStaffIdLbl = new JLabel("Confirm staff ID: ");
+        nested1.add(confStaffIdLbl);
+        JTextField confStaffIdField = new JTextField(10);
+        nested1.add(confStaffIdField);
+        
+        JLabel newEntryLbl = new JLabel("~ - ~ - ~ NEW STUDENT ENTRY ~ - ~ - ~");
+        nested2.add(newEntryLbl);
+        
+        JLabel newIdLbl = new JLabel("ID: ");
+        nested3.add(newIdLbl);
+        JTextField newIdField = new JTextField(10);
+        nested3.add(newIdField);
+        
+        JLabel newNameLbl = new JLabel("Name: ");
+        nested4.add(newNameLbl);
+        JTextField newNameField = new JTextField(10);
+        nested4.add(newNameField);
+        
+        JLabel newAgeLbl = new JLabel("Age: ");
+        nested5.add(newAgeLbl);
+        JTextField newAgeField = new JTextField(10);
+        nested5.add(newAgeField);
+        
+        JLabel newDeptLbl = new JLabel("Dept #: ");
+        nested6.add(newDeptLbl);
+        JTextField newDeptField = new JTextField(10);
+        nested6.add(newDeptField);
+        
+        JButton addStudentSubmit = new JButton("Add record");
+        nested7.add(addStudentSubmit);
+        
+        
+        //confStaffIdField.setText("00001");
+        //newIdField.setText("00015");
+        //newNameField.setText("First");
+        //newAgeField.setText("30");
+        //newDeptField.setText("5");
+        
+        addStudent.add(nested1);
+        addStudent.add(nested2);
+        addStudent.add(nested3);
+        addStudent.add(nested4);
+        addStudent.add(nested5);
+        addStudent.add(nested6);
+        addStudent.add(nested7);
+        
+        addStudentSubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            
+            ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            uniSearchRes = null;
+            String identifiers = null;
+            int result = 0;
+            
+            //Confirms ID of user
+            try {
+              uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
+            } catch (Exception e1) {
+              // TODO Auto-generated catch block
+              //e1.printStackTrace();
+            }
+            
+            //Checks if query result is empty or null
+            if(uniSearchRes != null && !uniSearchRes.isEmpty() && !newIdField.getText().isEmpty() && !newNameField.getText().isEmpty() && !newAgeField.getText().isEmpty() && !newDeptField.getText().isEmpty()) {
+              String idFieldStr = newIdField.getText();
+              String nameFieldStr = newNameField.getText();
+              String ageFieldStr = newAgeField.getText();
+              String deptFieldStr = newDeptField.getText();
+              
+              //Proceed with insertion
+              try {
+                String addQuery = "insert into Student values ('" + idFieldStr + "','" + nameFieldStr + "'," + ageFieldStr + "," + deptFieldStr + ")";
+                result = queryFac.addRecordToDB(addQuery);
+              } catch (Exception e2) {
+                // TODO Auto-generated catch block
+                //e2.printStackTrace();
+              }
+              
+              System.out.println(result);
+              if(result != 0) {
+                //Echoes results of above addition to the program log
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "New student added!");
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "ID: " + idFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Name: " + nameFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Age: " + ageFieldStr);
+                textArea.setText(textArea.getText() + "\n" + "Department: " + departmentTypes[Integer.parseInt(deptFieldStr) - 1]);
+                textArea.setText(textArea.getText() + "\n");
+              }
+              else {
+                //Throw error notif at user
+                JDialog notif = new JDialog(frame, "Attention!", true);
+                notif.setSize(300, 150);
+                notif.setLayout(new GridLayout(0,1));
+                JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                JLabel notifLbl1 = new JLabel("     Illegal insertion field!     ");
+                notifNested1.add(notifLbl1);
+                
+                notif.add(notifNested1);
+                //notif.pack();
+                notif.setLocationRelativeTo(addStudent);
+                notif.setVisible(true);
+              }
+              
+            }
+            else {
+              //Throw error notif at user
+              JDialog notif = new JDialog(frame, "Attention!", true);
+              notif.setSize(300, 150);
+              notif.setLayout(new GridLayout(0,1));
+              JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+              JLabel notifLbl1 = new JLabel("     You are not authorized to do that!     ");
+              notifNested1.add(notifLbl1);
+              
+              notif.add(notifNested1);
+              //notif.pack();
+              notif.setLocationRelativeTo(addStudent);
+              notif.setVisible(true);
+            }
+            
+          }
+        });
+        
+        addStudent.pack();
+        addStudent.setLocationRelativeTo(frame);
+        addStudent.setVisible(true);
+        nested1.setVisible(true);
+        nested2.setVisible(true);
+        nested3.setVisible(true);
       }
     });
     
-    m2.addActionListener(new ActionListener() {
+    
+    
+    deleteRecordBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        textArea.setText(textArea.getText() + "\n" + "About");
+        JDialog addStudent = new JDialog(frame, "Delete record...", true);
+        addStudent.setSize(400, 200);
+        addStudent.setLayout(new GridLayout(0,1));
+        
+        JPanel nested1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel nested3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested5 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        JLabel confStaffIdLbl = new JLabel("Confirm staff ID: ");
+        nested1.add(confStaffIdLbl);
+        JTextField confStaffIdField = new JTextField(10);
+        nested1.add(confStaffIdField);
+        
+        JLabel newEntryLbl = new JLabel("~ - ~ - ~ RECORD TO DELETE ~ - ~ - ~");
+        nested2.add(newEntryLbl);
+        
+        JLabel accTypeLbl = new JLabel("Account type: ");
+        nested3.add(accTypeLbl);
+        JComboBox accTypeCombo = new JComboBox(userTypes);
+        accTypeCombo.setSelectedIndex(0);
+        nested3.add(accTypeCombo);
+        
+        JLabel newIdLbl = new JLabel("ID: ");
+        nested4.add(newIdLbl);
+        JTextField newIdField = new JTextField(10);
+        nested4.add(newIdField);
+        
+        JLabel newNameLbl = new JLabel("Name: ");
+        nested5.add(newNameLbl);
+        JTextField newNameField = new JTextField(10);
+        nested5.add(newNameField);
+        
+        JButton deleteRecordSubmit = new JButton("DELETE");
+        nested6.add(deleteRecordSubmit);
+        
+        
+        //confStaffIdField.setText("00001");
+        //newIdField.setText("20015");
+        //newNameField.setText("First");
+        
+        addStudent.add(nested1);
+        addStudent.add(nested2);
+        addStudent.add(nested3);
+        addStudent.add(nested4);
+        addStudent.add(nested5);
+        addStudent.add(nested6);
+        
+        deleteRecordSubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            
+            ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            uniSearchRes = null;
+            String identifiers = null;
+            int result = 0;
+            
+            //Confirms ID of user
+            try {
+              uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
+            } catch (Exception e1) {
+              // TODO Auto-generated catch block
+              //e1.printStackTrace();
+            }
+            
+            //Checks if query result is empty or null
+            if(uniSearchRes != null && !uniSearchRes.isEmpty() && !newIdField.getText().isEmpty() && !newNameField.getText().isEmpty()) {
+              String comboStr = accTypeCombo.getSelectedItem().toString();
+              String idFieldStr = newIdField.getText();
+              String nameFieldStr = newNameField.getText();
+              
+              //Proceed with deletion
+              try {
+                String addQuery = "delete from " + comboStr + " where id='" + idFieldStr + "' and name='" + nameFieldStr + "'";
+                System.out.println(addQuery);
+                result = queryFac.addRecordToDB(addQuery);
+              } catch (Exception e2) {
+                // TODO Auto-generated catch block
+                //e2.printStackTrace();
+              }
+              
+              System.out.println("Rows affected by deletion: " + result);
+              if(result != 0) {
+                //Echoes results of above addition to the program log
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                textArea.setText(textArea.getText() + "\n" + "Record deleted!");
+                textArea.setText(textArea.getText() + "\n" + "----------------------------");
+              }
+              else {
+                //Throw error notif at user
+                JDialog notif = new JDialog(frame, "Attention!", true);
+                notif.setSize(300, 150);
+                notif.setLayout(new GridLayout(0,1));
+                JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                JLabel notifLbl1 = new JLabel("     Illegal deletion field!     ");
+                notifNested1.add(notifLbl1);
+                
+                notif.add(notifNested1);
+                //notif.pack();
+                notif.setLocationRelativeTo(addStudent);
+                notif.setVisible(true);
+              }
+              
+            }
+            else {
+              //Throw error notif at user
+              JDialog notif = new JDialog(frame, "Attention!", true);
+              notif.setSize(300, 150);
+              notif.setLayout(new GridLayout(0,1));
+              JPanel notifNested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+              JLabel notifLbl1 = new JLabel("     You are not authorized to do that!     ");
+              notifNested1.add(notifLbl1);
+              
+              notif.add(notifNested1);
+              //notif.pack();
+              notif.setLocationRelativeTo(addStudent);
+              notif.setVisible(true);
+            }
+            
+          }
+        });
+        
+        addStudent.pack();
+        addStudent.setLocationRelativeTo(frame);
+        addStudent.setVisible(true);
+        nested1.setVisible(true);
+        nested2.setVisible(true);
+        nested3.setVisible(true);
       }
     });
 
-    m3.addActionListener(new ActionListener() {
+    
+    
+    updateRecordBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        textArea.setText(textArea.getText() + "\n" + "Interests");
+        textArea.setText(textArea.getText() + "\n" + "! Update feature is not currently supported !\n");
       }
     });
     
@@ -263,7 +783,8 @@ public class UniversityDB extends JFrame {
         
         JLabel searchAsLbl = new JLabel("Search as: ");
         nested1.add(searchAsLbl);
-        JComboBox searchAsCombo = new JComboBox(userTypes);
+        String[] staffArr = new String[]{"Staff", "Faculty"};
+        JComboBox searchAsCombo = new JComboBox(staffArr);
         searchAsCombo.setSelectedIndex(0);
         nested1.add(searchAsCombo);
         JLabel label2 = new JLabel("     ID #: ");
@@ -291,23 +812,60 @@ public class UniversityDB extends JFrame {
         searchSubmit.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            System.out.println("University records search submitted!");
             
+            System.out.println("University records search submitted!");
             ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            uniSearchRes = null;
+            String identifiers = null;
+            
+            //Confirms ID of user
             try {
-              uniSearchRes = queryFac.searchDB("select * from Department");
-            } catch (Exception e1) {
+              uniSearchRes = queryFac.searchDB("select id from " + searchAsCombo.getSelectedItem() + " where id=" + searchField.getText());
+            } catch (Exception e2) {
               // TODO Auto-generated catch block
-              e1.printStackTrace();
+              //e2.printStackTrace();
             }
             
-            for(int i = 0; i < uniSearchRes.size(); i++) {
-              textArea.setText(textArea.getText() + "\n");
-              for(int j = 0; j < uniSearchRes.get(i).length; j++) {
-                //System.out.print(uniSearchRes.get(i)[j]);
-                textArea.setText(textArea.getText() + uniSearchRes.get(i)[j]);
+            if(uniSearchRes != null && !uniSearchRes.isEmpty()) {
+              //Constructs query values based on user type
+              if(searchForCombo.getSelectedItem().equals(userTypes[0]) || searchForCombo.getSelectedItem().equals(userTypes[2])) {
+                identifiers = "id, name, age, dept";
               }
-              //System.out.println();
+              else if(searchForCombo.getSelectedItem().equals(userTypes[1])) {
+                identifiers = "id, name, age, dept, specialty";
+              }
+              
+              if(!searchField2.getText().isEmpty()) {
+                //Queries DB for staff/faculty/student info
+                try {
+                  uniSearchRes = queryFac.searchDB("select " + identifiers + " from " + searchForCombo.getSelectedItem() + " where id=" + searchField2.getText());
+                } catch (Exception e1) {
+                  // TODO Auto-generated catch block
+                  //e1.printStackTrace();
+                }
+                
+                //Echoes results of above query to the program log
+                if((searchForCombo.getSelectedItem().equals(userTypes[0]) || searchForCombo.getSelectedItem().equals(userTypes[2])) && !uniSearchRes.isEmpty()) {
+                  textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                  textArea.setText(textArea.getText() + "\n" + searchForCombo.getSelectedItem() + " - " + uniSearchRes.get(0)[1]);
+                  textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                  textArea.setText(textArea.getText() + "\n" + "ID: " + uniSearchRes.get(0)[0]);
+                  textArea.setText(textArea.getText() + "\n" + "Age: " + uniSearchRes.get(0)[2]);
+                  textArea.setText(textArea.getText() + "\n" + "Department: " + departmentTypes[Integer.parseInt(uniSearchRes.get(0)[3]) - 1]);
+                  textArea.setText(textArea.getText() + "\n");
+                }
+                else if(searchForCombo.getSelectedItem().equals(userTypes[1]) && !uniSearchRes.isEmpty()) {
+                  textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                  textArea.setText(textArea.getText() + "\n" + searchForCombo.getSelectedItem() + " - " + uniSearchRes.get(0)[1]);
+                  textArea.setText(textArea.getText() + "\n" + "----------------------------");
+                  textArea.setText(textArea.getText() + "\n" + "ID: " + uniSearchRes.get(0)[0]);
+                  textArea.setText(textArea.getText() + "\n" + "Age: " + uniSearchRes.get(0)[2]);
+                  textArea.setText(textArea.getText() + "\n" + "Department: " + departmentTypes[Integer.parseInt(uniSearchRes.get(0)[3]) - 1]);
+                  textArea.setText(textArea.getText() + "\n" + "Research area: " + uniSearchRes.get(0)[4]);
+                  textArea.setText(textArea.getText() + "\n");
+                }
+              }
+              
             }
             
           }
@@ -328,33 +886,69 @@ public class UniversityDB extends JFrame {
     searchCoursesBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        
-        JDialog searchCourses = new JDialog(frame, "Search course list...", true);
+        JDialog searchCourses = new JDialog(frame, "Search available courses...", true);
         searchCourses.setSize(400, 200);
         searchCourses.setLayout(new GridLayout(0,1));
         
-        JPanel nested1 = new JPanel();
-        JPanel nested2 = new JPanel();
-        JPanel nested3 = new JPanel();
+        JPanel nested1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel nested2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel nested4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         
         
-        JLabel searchAsLbl = new JLabel("Search as: ");
-        nested1.add(searchAsLbl);
-        JComboBox searchAsCombo = new JComboBox(userTypes);
-        searchAsCombo.setSelectedIndex(0);
-        nested1.add(searchAsCombo);
+        JLabel findCourseLbl = new JLabel("~ - ~ - ~ FIND A COURSE ~ - ~ - ~");
+        nested1.add(findCourseLbl);
         
-        JLabel label2 = new JLabel("ID #: ");
-        nested2.add(label2);
-        JTextField searchField = new JTextField(20);
-        nested2.add(searchField);
+        JLabel searchWithinLbl = new JLabel("Search within: ");
+        nested2.add(searchWithinLbl);
+        JComboBox searchWithinCombo = new JComboBox(departmentTypes);
+        searchWithinCombo.setSelectedIndex(0);
+        nested2.add(searchWithinCombo);
         
-        JButton searchSubmit = new JButton("Search");
-        nested3.add(searchSubmit);
+        JLabel label2 = new JLabel("Course #: ");
+        nested3.add(label2);
+        JTextField courseNumField = new JTextField(10);
+        nested3.add(courseNumField);
+        
+        JButton searchSubmit = new JButton("SEARCH");
+        nested4.add(searchSubmit);
         
         searchCourses.add(nested1);
         searchCourses.add(nested2);
         searchCourses.add(nested3);
+        searchCourses.add(nested4);
+        
+        searchSubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            
+            System.out.println("University records search submitted!");
+            ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
+            uniSearchRes = null;
+            String identifiers = null;
+            
+            //Queries course info
+            try {
+              uniSearchRes = queryFac.searchDB("select Department.name, Courses.id, Courses.name, Courses.regCap from Courses, Department where Department.name='" + searchWithinCombo.getSelectedItem() + "' and Courses.dept=Department.depNum and Courses.id='" + courseNumField.getText() + "'");
+            } catch (Exception e2) {
+              // TODO Auto-generated catch block
+              e2.printStackTrace();
+            }
+            
+            
+            if(uniSearchRes != null && !uniSearchRes.isEmpty()) {
+              textArea.setText(textArea.getText() + "\n" + "----------------------------");
+              textArea.setText(textArea.getText() + "\n" + "Course Search Results");
+              textArea.setText(textArea.getText() + "\n" + "----------------------------");
+              textArea.setText(textArea.getText() + "\n" + uniSearchRes.get(0)[1] + ": " + uniSearchRes.get(0)[2]);
+              textArea.setText(textArea.getText() + "\n" + "College: " + uniSearchRes.get(0)[0]);
+              textArea.setText(textArea.getText() + "\n" + "Seats left: " + uniSearchRes.get(0)[3]);
+              textArea.setText(textArea.getText() + "\n");
+            }
+            
+            
+          }
+        });
         
         searchCourses.pack();
         searchCourses.setLocationRelativeTo(frame);
@@ -373,10 +967,6 @@ public class UniversityDB extends JFrame {
     frame.getContentPane().add(BorderLayout.CENTER, scrollPane);
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
-    
-    dialog.pack();
-    dialog.setLocationRelativeTo(frame);
-    dialog.setVisible(true);
 
   }
   

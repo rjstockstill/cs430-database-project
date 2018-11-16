@@ -43,4 +43,18 @@ public class QueryFactory {
     return records;
   }
   
+  public int addRecordToDB(String query) throws Exception {
+    
+    ConnectSQL con = new ConnectSQL();
+    Connection connect = con.getMySqlConnection();
+    System.out.println("QueryFactory: Connected to database");
+    
+    PreparedStatement stmt = connect.prepareStatement(query);
+    //ResultSet rs = stmt.executeQuery();
+    int result = stmt.executeUpdate();
+    stmt.close();
+    connect.close();
+    return result;
+  }
+  
 }
