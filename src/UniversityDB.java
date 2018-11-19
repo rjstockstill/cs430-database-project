@@ -1,42 +1,21 @@
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.sql.*;
-import java.util.*;
-import java.sql.DriverManager;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class UniversityDB extends JFrame {
 
   public static void main(String[] args) throws Exception {
-    //Log into sqlplus:
-    //sqlplus
-    //sys as sysdba
-    //Seraphim97
-    
-    
-    
-    
-    
+	  
     String[] userTypes = {"Staff", "Faculty", "Student"};
     String[] departmentTypes = {"Computer Science", "Computer Engineering", "Electrical Engineering", "Physics", "Mathematics", "Chemistry", "Human Physiology", "Biology", "Zoology", "Geology"};
     
-    
-    
-    
     //Main frame
-    
     JFrame frame = new JFrame("CS430 Project");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(1200, 800);
-    
-    //Container contentPane = frame.getContentPane();
-    //contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
-    
     //End main frame
     
     
@@ -99,65 +78,30 @@ public class UniversityDB extends JFrame {
     textArea.setText(textArea.getText() + "\n");
     
     
-    //Mock database
-    MockDB mockdb = new MockDB();
-    String[] acc1 = new String[]{"Staff", "abc", "admin"};
-    String[] acc2 = new String[]{"zach", "abc", "staff"};
-    String[] acc3 = new String[]{"justin", "abc", "staff"};
-    String[] acc4 = new String[]{"luigi", "xyz", "customer"};
-    String[] acc5 = new String[]{"sam", "abc", "customer"};
-    mockdb.accounts.add(acc1);
-    mockdb.accounts.add(acc2);
-    mockdb.accounts.add(acc3);
-    mockdb.accounts.add(acc4);
-    mockdb.accounts.add(acc5);
     
     
     
     
     
-    
-    
-    //SQL connection stuff
+    //SQL connection test stuff
     ConnectSQL con = new ConnectSQL();
     Connection connect = con.getMySqlConnection();
     System.out.println("Connected to database");
     
-    PreparedStatement stmt = connect.prepareStatement("select * from Student");
-    ResultSet rs = stmt.executeQuery();
-    ResultSetMetaData rsmd = rs.getMetaData();
+    //PreparedStatement stmt = connect.prepareStatement("select * from Student");
+    //ResultSet rs = stmt.executeQuery();
+    //ResultSetMetaData rsmd = rs.getMetaData();
     
-    //rs.next();
-    //String foundType1 = rs.getString(1);
-    //String foundType2 = rs.getString(2);
-    //String foundType3 = rs.getString(3);
-    //String foundType4 = rs.getString(4);
-    //textArea.setText(foundType1 + " " + foundType2 + " " + foundType3 + " " + foundType4);
-    
-    stmt.close();
+    //stmt.close();
     connect.close();
-    
-    //End SQL connection stuff
-    
+    //End SQL connection test stuff
     
     
+    //Create QueryFactory object to facilitate communication with the DB
     QueryFactory queryFac = new QueryFactory();
-    //ArrayList<String[]> res = new ArrayList<String[]>();
-    //res = queryFac.searchDB("select * from Department");
-    
-    /*
-    //System.out.println(res.get(0)[0] + " " + res.get(0)[1] + " " + res.get(0)[2]);
-    for(int i = 0; i < res.size(); i++) {
-      for(int j = 0; j < res.get(i).length; j++) {
-        System.out.print(res.get(i)[j]);
-      }
-      System.out.println();
-    }
-    */
     
     
     //Events
-    
     createStaffBtn.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -201,15 +145,8 @@ public class UniversityDB extends JFrame {
         JTextField newDeptField = new JTextField(10);
         nested6.add(newDeptField);
         
-        JButton addStaffSubmit = new JButton("Add record");
+        JButton addStaffSubmit = new JButton("ADD RECORD");
         nested7.add(addStaffSubmit);
-        
-        
-        //confStaffIdField.setText("00001");
-        //newIdField.setText("00015");
-        //newNameField.setText("First");
-        //newAgeField.setText("30");
-        //newDeptField.setText("5");
         
         addStaff.add(nested1);
         addStaff.add(nested2);
@@ -225,14 +162,12 @@ public class UniversityDB extends JFrame {
             
             ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
             uniSearchRes = null;
-            String identifiers = null;
             int result = 0;
             
             //Confirms ID of user
             try {
               uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
             } catch (Exception e1) {
-              // TODO Auto-generated catch block
               //e1.printStackTrace();
             }
             
@@ -248,7 +183,6 @@ public class UniversityDB extends JFrame {
                 String addQuery = "insert into Staff values ('" + idFieldStr + "','" + nameFieldStr + "'," + ageFieldStr + "," + deptFieldStr + ")";
                 result = queryFac.addRecordToDB(addQuery);
               } catch (Exception e2) {
-                // TODO Auto-generated catch block
                 //e2.printStackTrace();
               }
               
@@ -358,16 +292,8 @@ public class UniversityDB extends JFrame {
         JTextField newSpecialtyField = new JTextField(10);
         nested7.add(newSpecialtyField);
         
-        JButton addFacultySubmit = new JButton("Add record");
+        JButton addFacultySubmit = new JButton("ADD RECORD");
         nested8.add(addFacultySubmit);
-        
-        
-        //confStaffIdField.setText("00001");
-        //newIdField.setText("00015");
-        //newNameField.setText("First");
-        //newAgeField.setText("30");
-        //newDeptField.setText("5");
-        //newSpecialtyField.setText("Cloud computing");
         
         addFaculty.add(nested1);
         addFaculty.add(nested2);
@@ -384,14 +310,12 @@ public class UniversityDB extends JFrame {
             
             ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
             uniSearchRes = null;
-            String identifiers = null;
             int result = 0;
             
             //Confirms ID of user
             try {
               uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
             } catch (Exception e1) {
-              // TODO Auto-generated catch block
               //e1.printStackTrace();
             }
             
@@ -408,7 +332,6 @@ public class UniversityDB extends JFrame {
                 String addQuery = "insert into Faculty values ('" + idFieldStr + "','" + nameFieldStr + "'," + ageFieldStr + "," + deptFieldStr + ",'" + specialtyFieldStr + "')";
                 result = queryFac.addRecordToDB(addQuery);
               } catch (Exception e2) {
-                // TODO Auto-generated catch block
                 //e2.printStackTrace();
               }
               
@@ -513,15 +436,8 @@ public class UniversityDB extends JFrame {
         JTextField newDeptField = new JTextField(10);
         nested6.add(newDeptField);
         
-        JButton addStudentSubmit = new JButton("Add record");
+        JButton addStudentSubmit = new JButton("ADD RECORD");
         nested7.add(addStudentSubmit);
-        
-        
-        //confStaffIdField.setText("00001");
-        //newIdField.setText("00015");
-        //newNameField.setText("First");
-        //newAgeField.setText("30");
-        //newDeptField.setText("5");
         
         addStudent.add(nested1);
         addStudent.add(nested2);
@@ -537,14 +453,12 @@ public class UniversityDB extends JFrame {
             
             ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
             uniSearchRes = null;
-            String identifiers = null;
             int result = 0;
             
             //Confirms ID of user
             try {
               uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
             } catch (Exception e1) {
-              // TODO Auto-generated catch block
               //e1.printStackTrace();
             }
             
@@ -560,7 +474,6 @@ public class UniversityDB extends JFrame {
                 String addQuery = "insert into Student values ('" + idFieldStr + "','" + nameFieldStr + "'," + ageFieldStr + "," + deptFieldStr + ")";
                 result = queryFac.addRecordToDB(addQuery);
               } catch (Exception e2) {
-                // TODO Auto-generated catch block
                 //e2.printStackTrace();
               }
               
@@ -662,11 +575,6 @@ public class UniversityDB extends JFrame {
         JButton deleteRecordSubmit = new JButton("DELETE");
         nested6.add(deleteRecordSubmit);
         
-        
-        //confStaffIdField.setText("00001");
-        //newIdField.setText("20015");
-        //newNameField.setText("First");
-        
         addStudent.add(nested1);
         addStudent.add(nested2);
         addStudent.add(nested3);
@@ -680,14 +588,12 @@ public class UniversityDB extends JFrame {
             
             ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
             uniSearchRes = null;
-            String identifiers = null;
             int result = 0;
             
             //Confirms ID of user
             try {
               uniSearchRes = queryFac.searchDB("select id from Staff where id=" + confStaffIdField.getText());
             } catch (Exception e1) {
-              // TODO Auto-generated catch block
               //e1.printStackTrace();
             }
             
@@ -703,7 +609,6 @@ public class UniversityDB extends JFrame {
                 System.out.println(addQuery);
                 result = queryFac.addRecordToDB(addQuery);
               } catch (Exception e2) {
-                // TODO Auto-generated catch block
                 //e2.printStackTrace();
               }
               
@@ -802,7 +707,7 @@ public class UniversityDB extends JFrame {
         JTextField searchField2 = new JTextField(10);
         nested2.add(searchField2);
         
-        JButton searchSubmit = new JButton("Search");
+        JButton searchSubmit = new JButton("SEARCH");
         nested3.add(searchSubmit);
         
         searchUni.add(nested1);
@@ -822,7 +727,6 @@ public class UniversityDB extends JFrame {
             try {
               uniSearchRes = queryFac.searchDB("select id from " + searchAsCombo.getSelectedItem() + " where id=" + searchField.getText());
             } catch (Exception e2) {
-              // TODO Auto-generated catch block
               //e2.printStackTrace();
             }
             
@@ -840,7 +744,6 @@ public class UniversityDB extends JFrame {
                 try {
                   uniSearchRes = queryFac.searchDB("select " + identifiers + " from " + searchForCombo.getSelectedItem() + " where id=" + searchField2.getText());
                 } catch (Exception e1) {
-                  // TODO Auto-generated catch block
                   //e1.printStackTrace();
                 }
                 
@@ -925,14 +828,12 @@ public class UniversityDB extends JFrame {
             System.out.println("University records search submitted!");
             ArrayList<String[]> uniSearchRes = new ArrayList<String[]>();
             uniSearchRes = null;
-            String identifiers = null;
             
             //Queries course info
             try {
               uniSearchRes = queryFac.searchDB("select Department.name, Courses.id, Courses.name, Courses.regCap from Courses, Department where Department.name='" + searchWithinCombo.getSelectedItem() + "' and Courses.dept=Department.depNum and Courses.id='" + courseNumField.getText() + "'");
             } catch (Exception e2) {
-              // TODO Auto-generated catch block
-              e2.printStackTrace();
+              //e2.printStackTrace();
             }
             
             

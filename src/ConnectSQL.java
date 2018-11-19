@@ -6,7 +6,8 @@ public class ConnectSQL {
   
   String url = "jdbc:oracle:thin:@localhost:1521:orcl";
   String user = "sys as sysdba";
-  String password = "Seraphim97";
+  // TODO change sqlplus password
+  String password = "MYPASSWORD";
   
   public ConnectSQL() throws Exception {
     //
